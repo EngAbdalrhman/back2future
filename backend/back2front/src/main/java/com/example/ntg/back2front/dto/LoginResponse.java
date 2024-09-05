@@ -4,7 +4,7 @@ public class LoginResponse {
 
 	private String _errorMsg;
 	private String _fullName;
-
+  private  String status;
 
 	public LoginResponse(String _errorMsg, String _fullName) {
 //		super();
@@ -25,4 +25,12 @@ public class LoginResponse {
 	public void set_fullName(String _fullName) {
 		this._fullName = _fullName;
 	}
+  public String getStatus() {
+    return status;
+  }
+  public LoginResponse setStatus(String status) {
+    this.status = status;
+    return this;
+  }
+
 }

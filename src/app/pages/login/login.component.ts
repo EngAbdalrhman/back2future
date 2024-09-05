@@ -4,8 +4,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { LoginService } from '../../common/login.service';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { __await } from 'tslib';
 
 @Component({
   selector: 'app-login',
@@ -23,16 +23,27 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
   username: string = '';
   password: string = '';
-  constructor(private _login: LoginService, private _router: Router) {}
+  constructor(private _login: LoginService) {}
   binary: boolean = false;
-  handleLogin() {
-    this._login.logMe(this.username, this.password, this._router, this.binary);
-    // console.log(this.username);
-    // console.log(this.password);
-    // console.log(this.binary);
-    if (!this._login.isLogin) {
-      alert('UserName or Password is incorrect');
-      this.password = '';
+  postingBackEnd = false;
+  async handleLogin() {
+    this.postingBackEnd = true;
+    let body = {
+      userName: this.username,
+      pwd: this.password,
+    };
+    try {
+      await this._login.logMe(body, this.binary);
+
+      if (!this._login.isLogin) {
+        alert('UserName or Password is incorrect');
+        this.password = '';
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred during login. Please try again.');
+    } finally {
+      this.postingBackEnd = false;
     }
   }
 }

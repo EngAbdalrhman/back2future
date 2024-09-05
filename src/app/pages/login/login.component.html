@@ -61,11 +61,11 @@
         </div>
 
         <button
-          [disabled]="!frm.checkValidity()"
+          [disabled]="!frm.checkValidity() || postingBackEnd"
           pButton
           pRipple
           label="Sign In"
-          icon="pi pi-user"
+          [icon]="postingBackEnd ? 'pi pi-spin pi-spinner' : 'pi pi-user'"
           class="w-full"
           (click)="handleLogin()"
         ></button>

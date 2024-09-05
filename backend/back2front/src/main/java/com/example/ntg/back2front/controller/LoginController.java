@@ -31,10 +31,10 @@ public class LoginController {
 		if(_request.getUserName() != null && _request.getUserName().equals("admin"))
 		{
       if (_request.getPwd() != null  && _request.getPwd().equals("admin")) {
-        return new LoginResponse(null,"Admin");
+        return new LoginResponse(null,"Admin").setStatus("success");
       }
 
 		}
-		return new LoginResponse("Invalid Data",null);
+		return new LoginResponse("Invalid Data",null).setStatus("fail");
 	}
 }
