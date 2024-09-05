@@ -6,6 +6,8 @@ import { RippleModule } from 'primeng/ripple';
 import { LoginService } from '../../common/login.service';
 import { FormsModule } from '@angular/forms';
 import { __await } from 'tslib';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -16,14 +18,19 @@ import { __await } from 'tslib';
     ButtonModule,
     InputTextModule,
     FormsModule,
+    ToastModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  providers: [MessageService],
 })
 export class LoginComponent {
   username: string = '';
   password: string = '';
-  constructor(private _login: LoginService) {}
+  constructor(
+    private _login: LoginService,
+    private messageService: MessageService
+  ) {}
   binary: boolean = false;
   postingBackEnd = false;
   async handleLogin() {
@@ -36,12 +43,20 @@ export class LoginComponent {
       await this._login.logMe(body, this.binary);
 
       if (!this._login.isLogin) {
-        alert('UserName or Password is incorrect');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'UserName or Password is incorrect',
+        });
         this.password = '';
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert('An error occurred during login. Please try again.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'An error occurred during login. Please try again.',
+      });
     } finally {
       this.postingBackEnd = false;
     }
