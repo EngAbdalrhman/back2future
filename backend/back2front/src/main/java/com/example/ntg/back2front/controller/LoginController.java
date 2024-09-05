@@ -1,5 +1,6 @@
 package com.example.ntg.back2front.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,13 @@ public class LoginController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		if(_request.getUserName().equals("admin") && _request.getPwd().equals("admin"))
+    // check to defeind of NullPointerException
+		if(_request.getUserName() != null && _request.getUserName().equals("admin"))
 		{
-			return new LoginResponse(null,"Admin");
+      if (_request.getPwd() != null  && _request.getPwd().equals("admin")) {
+        return new LoginResponse(null,"Admin");
+      }
+
 		}
 		return new LoginResponse("Invalid Data",null);
 	}

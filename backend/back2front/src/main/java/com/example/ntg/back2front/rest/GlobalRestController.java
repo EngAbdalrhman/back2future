@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-// @RequestMapping("/rest")
-public class RestController {
+@RequestMapping("/")
+public class GlobalRestController {
 
   @GetMapping("/info")
-  public String info() {
+  public String getInfo() {
     return "Speedy X NTG";
   }
   @GetMapping("/error")

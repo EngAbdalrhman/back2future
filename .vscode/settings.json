@@ -1,3 +1,4 @@
 {
-  "java.project.sourcePaths": ["backend"]
+  "java.project.sourcePaths": ["backend"],
+  "java.compile.nullAnalysis.mode": "automatic"
 }
