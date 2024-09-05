@@ -1,0 +1,16 @@
+.header {
+  position: fixed;
+  /* padding-bottom: 20px; */
+  width: -webkit-fill-available;
+  width: 100%;
+  /* display: contents; */
+  /* z-index: unset; */
+  /* overflow: visible; */
+  /* margin-bottom: auto; */
+  /* margin: revert; */
+  height: fit-content;
+  z-index: 10;
+}
+.active {
+  color: gold;
+}
