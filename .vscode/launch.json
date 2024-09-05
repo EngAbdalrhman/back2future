@@ -3,6 +3,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "Back2frontApplication",
+      "request": "launch",
+      "mainClass": "back2front.src.main.java.com.example.ntg.back2front.Back2frontApplication",
+      "projectName": "back2future_18847e8e"
+    },
+    {
+      "type": "java",
+      "name": "Back2frontApplication",
+      "request": "launch",
+      "mainClass": "com.example.ntg.back2front.Back2frontApplication"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",

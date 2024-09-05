@@ -27,9 +27,12 @@ export class LoginComponent {
   binary: boolean = false;
   handleLogin() {
     this._login.logMe(this.username, this.password, this._router, this.binary);
-    console.log(this.username);
-    console.log(this.password);
-    console.log(this.binary);
-    this.password = '';
+    // console.log(this.username);
+    // console.log(this.password);
+    // console.log(this.binary);
+    if (!this._login.isLogin) {
+      alert('UserName or Password is incorrect');
+      this.password = '';
+    }
   }
 }
