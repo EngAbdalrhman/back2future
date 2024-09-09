@@ -18,19 +18,19 @@ import jakarta.persistence.TypedQuery;
 @Repository
 public class UsersRepo implements UserDAO{
 
-	
+
 	EntityManager entityManager;
-	
+
 	@Autowired
 	public UsersRepo(EntityManager entityManger)
 	{
 		this.entityManager = entityManger;
 	}
-	
+
 //	@Override
 //	public void createTable() {
 //		// TODO Auto-generated method stub
-//		
+//
 //	}
 
 	@Transactional
@@ -46,22 +46,22 @@ public class UsersRepo implements UserDAO{
 
 	@Override
 	public List<Users> getRecords() {
-		TypedQuery<Users> query = entityManager.createQuery("FROM users",Users.class); // check NativeQuery
+		TypedQuery<Users> query = entityManager.createQuery("FROM Users",Users.class); // check NativeQuery
 		return query.getResultList();
 	}
 
 	@Override
 	public List<Users> getRecords(String condition) {
-		TypedQuery<Users> query = entityManager.createQuery("FROM users Where " + condition,Users.class); // check NativeQuery
+		TypedQuery<Users> query = entityManager.createQuery("FROM Users Where " + condition,Users.class); // check NativeQuery
 		return query.getResultList();
 	}
 
 	@Override
 	public List<Users> getRecordsWithUserName(String user) {
-		TypedQuery<Users> query = entityManager.createQuery("FROM Student Where firstName='" + user+"'",Users.class);
+		TypedQuery<Users> query = entityManager.createQuery("FROM Users Where userName='" + user+"'",Users.class);
 		return query.getResultList();
 	}
-	
+
 	//Update
 	@Transactional
 	@Override
@@ -89,7 +89,7 @@ public class UsersRepo implements UserDAO{
 		user.setEmail(email);
 		entityManager.merge(user);
 	}
-	
+
 	//Delete
 	@Transactional
 	@Override
@@ -102,9 +102,9 @@ public class UsersRepo implements UserDAO{
 	public int deleteUsersConditionBased(String condition) {
 		int numRowsDeleted;
 		try {
-		 numRowsDeleted = entityManager.createQuery("Delete from users Where " + condition).executeUpdate(); 
+		 numRowsDeleted = entityManager.createQuery("Delete from Users Where " + condition).executeUpdate();
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			numRowsDeleted = -1;
 		}
@@ -113,7 +113,7 @@ public class UsersRepo implements UserDAO{
 	@Transactional
 	@Override
 	public int deleteAll() {
-		int numRowsDeleted = entityManager.createQuery("Delete from users").executeUpdate(); 
+		int numRowsDeleted = entityManager.createQuery("Delete from Users").executeUpdate();
 		// Reset Id Counter same as Truncate
 		Query nativeQuery = entityManager.createNativeQuery("ALTER TABLE postgres.users AUTO_INCREMENT = 1");
 		nativeQuery.executeUpdate();
@@ -133,5 +133,5 @@ public class UsersRepo implements UserDAO{
 		nativeQuery.executeUpdate();
 	}
 
-	
+
 }

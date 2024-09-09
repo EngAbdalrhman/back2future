@@ -1,5 +1,7 @@
 package com.example.ntg.back2front.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,22 +33,20 @@ public class LoginController {
 	// get parameters are passed in the URL(pass param v/v| query param ?v=v) while Post&Put parameters are sent in the body
 	@PostMapping("/login")
 	public LoginResponse login(@RequestBody LoginRequest _request) {
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-    // check to defeind of NullPointerException
-		if(_request.getUserName() != null && _request.getUserName().equals("admin"))
-		{
-      if (_request.getPwd() != null  && _request.getPwd().equals("admin")) {
-        return new LoginResponse(null,"Admin").setStatus("success");
-      }
 
+		if(_request.getUserName() != null )
+		{
+      List<Users> userData = user.getRecordsWithUserName(_request.getUserName()); // && _request.getUserName().equals("admin")
+      for (Users _user : userData) {
+        //_request.getPwd() != null  &&
+        if ( _request.getPwd().equals(_user.getPassword())) {
+          return new LoginResponse(null, _user.getFullName()).setStatus("success");
+        }
+      }
 		}
 		return new LoginResponse("Invalid Data",null).setStatus("fail");
 	}
-	
+
 	@PostMapping("/user/insert")
 	public String addUser(@RequestBody Users user_) {
 //		@RequestBody String userName, @RequestBody String password, @RequestBody String fullName, @RequestBody String email
@@ -54,19 +54,19 @@ public class LoginController {
 		user.insert(user_);
 		return user_.convert2Json();
 	}
-	
+
 	@PostMapping("/user/user")
 	public String updateUser(@RequestBody Users user_) {
 		// check username or id
 		user.updateUsers(user_);
 		return user_.convert2Json();
 	}
-	
+
 	@GetMapping("/user")
 	public String getUser(@RequestParam int id) {
 		return user.getRecordById(id).convert2Json();
 	}
-	
+
 	@PostMapping("/user/delete")
 	public String deleteUser(@RequestParam int id) {
 		user.deleteUsers(id);
