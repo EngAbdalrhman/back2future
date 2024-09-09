@@ -1,6 +1,7 @@
 package com.example.ntg.back2front.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ntg.back2front.dto.LoginRequest;
 import com.example.ntg.back2front.dto.LoginResponse;
 import com.example.ntg.back2front.entities.Users;
+import com.example.ntg.back2front.repo.CRUDUserDAO;
 import com.example.ntg.back2front.repo.UsersRepo;
 
 @RestController
-@RequestMapping("/rest") // put under rest | context handle
-public class LoginController {
+@RequestMapping("/apis")
+public class LoginAPIs {
 
 	// get / post / delete / put
-//	Users user;
-	UsersRepo  user;
-	@Autowired
-	public LoginController(UsersRepo user) {
-		this.user = user;
-	}
-	@GetMapping("/hello")
+  @Autowired
+  CRUDUserDAO user;
+
+	@GetMapping("/test")
 	public String sayHello() {
 		return "Hello World";
 	}
@@ -36,40 +35,41 @@ public class LoginController {
 
 		if(_request.getUserName() != null )
 		{
-      List<Users> userData = user.getRecordsWithUserName(_request.getUserName()); // && _request.getUserName().equals("admin")
-      for (Users _user : userData) {
-        //_request.getPwd() != null  &&
-        if ( _request.getPwd().equals(_user.getPassword())) {
-          return new LoginResponse(null, _user.getFullName()).setStatus("success");
-        }
-      }
+	      List<Users> userData = this.user.findByUserNameAndPassword(_request.getUserName(),_request.getPwd());
+//	      if(userData.iterator().hasNext()) {
+//	    	  Users row = userData.iterator().next();
+//	      }
+	      if(userData.size() == 1) {
+	    	  Users row = userData.get(0);
+	    	  return new LoginResponse(null, row.getFullName()).setStatus("success");
+	      }
 		}
 		return new LoginResponse("Invalid Data",null).setStatus("fail");
 	}
 
 	@PostMapping("/user/insert")
-	public String addUser(@RequestBody Users user_) {
-//		@RequestBody String userName, @RequestBody String password, @RequestBody String fullName, @RequestBody String email
-//		Users user_ = new Users(userName,password,fullName,email);
-		user.insert(user_);
-		return user_.convert2Json();
+	public Users addUser(@RequestBody Users user_) {
+		return user.save(user_);
 	}
 
 	@PostMapping("/user/user")
-	public String updateUser(@RequestBody Users user_) {
-		// check username or id
-		user.updateUsers(user_);
-		return user_.convert2Json();
+	public Users updateUser(@RequestBody Users user_) {
+		return user.save(user_);
 	}
 
 	@GetMapping("/user")
-	public String getUser(@RequestParam int id) {
-		return user.getRecordById(id).convert2Json();
+	public Optional<Users> getUser(@RequestParam long id) {
+		return user.findById(id);
+	}
+
+  @GetMapping("/users")
+	public Iterable<Users> getUser() {
+		return user.findAll();
 	}
 
 	@PostMapping("/user/delete")
-	public String deleteUser(@RequestParam int id) {
-		user.deleteUsers(id);
+	public String deleteUser(@RequestParam long id) {
+		user.deleteById(id);
 		return "{\"status\":\"done\"}";
 	}
 }
