@@ -18,7 +18,7 @@ public class GlobalRestController implements ErrorController{
     return "404 Your Mind Not Found";
   }
 
-  @Override
+//  @Override
   public String getErrorPath() {
     return "/error";
   }

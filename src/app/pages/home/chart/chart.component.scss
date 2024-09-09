@@ -1,0 +1,25 @@
+.split {
+  min-height: calc(100vh - 100px) !important;
+}
+.canvas_area {
+  position: relative;
+  width: 100%;
+  // overflow: scroll;
+  background-color: whitesmoke;
+  // flex-basis: calc(87.7583% - 4px);
+}
+.toolbarArea {
+  position: relative;
+  background-color: whitesmoke;
+  width: 100%;
+  // color: orangered;
+}
+.canvas_area::before {
+  background-color: beige;
+}
+.canvas_area::after {
+  background-color: azure;
+}
+// .app-shape {
+//   position: relative;
+// }

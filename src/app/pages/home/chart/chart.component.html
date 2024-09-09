@@ -1,1 +1,41 @@
-<p>chart works!</p>
+<!-- <div class="w-full flex justify-content-center center">
+  <p-button
+    (click)="save()"
+    pButton
+    label="Save"
+    class="w-full flex justify-content-center center"
+  ></p-button>
+  <p-button
+    (click)="clear()"
+    pButton
+    label="Clear"
+    class="w-full flex justify-content-center center"
+  ></p-button>
+</div> -->
+<p-splitter
+  class="split"
+  [style]="{ height: '700px' }"
+  styleClass="mb-5"
+  [panelSizes]="[20, 80]"
+>
+  <ng-template pTemplate>
+    <div class="toolbarArea">
+      <div class="col flex align-items-center justify-content-center">
+        Toolbar
+      </div>
+      <app-shape
+        *ngFor="let tool of toolList"
+        [shapeData]="tool"
+        draggable="true"
+      ></app-shape>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="canvas_area">
+      <div class="col flex align-items-center justify-content-center">
+        Drawing Area
+      </div>
+      <app-shape *ngFor="let shape of shapes" [shapeData]="shape"></app-shape>
+    </div>
+  </ng-template>
+</p-splitter>

@@ -1,0 +1,27 @@
+<svg
+  [attr.height]="height + 10"
+  [attr.width]="width + 10"
+  [style.top]="y + 'px'"
+  [style.left]="x + 'px'"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <filter id="f1" x="0" y="0" xmlns="http://www.w3.org/2000/svg">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+    </filter>
+  </defs>
+  <rect
+    [attr.width]="width"
+    [attr.height]="height"
+    [attr.fill]="color"
+    filter="url(#f1)"
+  />
+  <text
+    *ngIf="label && label.length > 0"
+    [attr.x]="width / 2"
+    [attr.y]="height / 2"
+    [attr.fill]="font_color"
+  >
+    {{ label }}
+  </text>
+</svg>
