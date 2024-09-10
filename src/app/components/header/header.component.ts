@@ -36,6 +36,11 @@ export class HeaderComponent implements OnInit {
         // routerLinkActiveOptions: '{exact:true}',
         // routerLinkActive: 'active',
       },
+      {
+        label: 'Users',
+        icon: 'pi pi-user',
+        routerLink: 'home/users',
+      },
     ];
 
     // this.a.nativeElement.attr.routerLinkActive = 'active';

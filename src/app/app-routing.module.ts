@@ -29,6 +29,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'users',
+        loadComponent: () =>
+          import('./pages/user-management/user-management.component').then(
+            (m) => m.UserManagementComponent
+          ),
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'main',
