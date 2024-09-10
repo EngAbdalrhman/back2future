@@ -3,6 +3,7 @@ package com.example.ntg.back2front.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ import com.example.ntg.back2front.dto.LoginRequest;
 import com.example.ntg.back2front.dto.LoginResponse;
 import com.example.ntg.back2front.entities.Users;
 import com.example.ntg.back2front.repo.UsersRepo;
-
+// @CrossOrigin
 @RestController
 @RequestMapping("/rest") // put under rest | context handle
 public class LoginController {

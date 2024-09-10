@@ -2,13 +2,13 @@
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       User Data
-      <span class="flex align-items-center justify-content-between">
+      <span>
         <p-button
           [disabled]="isLoading"
           [icon]="isLoading ? 'pi pi-refresh pi-spin' : 'pi pi-refresh'"
           (click)="refresh()"
         />
-        <p-button icon="pi pi-user-plus" (click)="showDialog()" />
+        <p-button class="ml-2" icon="pi pi-user-plus" (click)="showDialog()" />
       </span>
     </div>
   </ng-template>
@@ -19,6 +19,8 @@
       <th>Username</th>
       <th>Password</th>
       <th>Email</th>
+      <th></th>
+      <th></th>
     </tr>
   </ng-template>
   <!-- as *ngfor -->
@@ -30,6 +32,14 @@
       <td>{{ row.userName }}</td>
       <td>{{ row.password }}</td>
       <td>{{ row.email }}</td>
+      <td>
+        <p-button icon="pi pi-user-edit" (click)="editUserDialog(row)" />
+        <p-button
+          class="ml-2 color-red"
+          icon="pi pi-times"
+          (click)="deleteUserDialog(row)"
+        />
+      </td>
     </tr>
     <tr *ngIf="isLoading">
       <td><p-skeleton /></td>
@@ -42,7 +52,7 @@
 </p-table>
 
 <p-dialog
-  header="Add New User"
+  [header]="isEdit ? 'Edit User' : 'Add New User'"
   [resizable]="false"
   [modal]="true"
   [maximizable]="true"
@@ -61,7 +71,7 @@
       name="username"
       [ngModelOptions]="{ standalone: true }"
       type="text"
-      [(ngModel)]="username"
+      [(ngModel)]="user.userName"
       placeholder="User Name"
       pInputText
       class="w-full mb-3"
@@ -79,7 +89,7 @@
       placeholder="Password"
       pInputText
       class="w-full mb-3"
-      [(ngModel)]="password"
+      [(ngModel)]="user.password"
     />
     <label for="fullname" class="block text-900 font-medium mb-2">Name</label>
     <input
@@ -88,7 +98,7 @@
       name="fullname"
       [ngModelOptions]="{ standalone: true }"
       type="text"
-      [(ngModel)]="fullname"
+      [(ngModel)]="user.fullName"
       placeholder="Name"
       pInputText
       class="w-full mb-3"
@@ -104,15 +114,34 @@
       placeholder="Email"
       pInputText
       class="w-full mb-3"
-      [(ngModel)]="email"
+      [(ngModel)]="user.email"
     />
     <button
       [disabled]="!frm.checkValidity()"
       pButton
       pRipple
-      label="Sign Up"
+      [label]="isEdit ? 'Edit User' : 'Sign Up'"
       class="w-full"
-      (click)="addUser()"
+      (click)="isEdit ? editUser() : addUser()"
     ></button>
   </form>
+</p-dialog>
+
+<p-dialog
+  header="Delete Confirmation"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="false"
+  appendTo="body"
+  [(visible)]="isDelete"
+  [style]="{ width: '75vw' }"
+  [contentStyle]="{ height: '100px' }"
+>
+  <button
+    pButton
+    pRipple
+    label="Confirm"
+    class="w-full"
+    (click)="deleteUser()"
+  ></button>
 </p-dialog>

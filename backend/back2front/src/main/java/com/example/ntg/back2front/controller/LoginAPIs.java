@@ -52,7 +52,7 @@ public class LoginAPIs {
 		return user.save(user_);
 	}
 
-	@PostMapping("/user/user")
+	@PostMapping("/user/update")
 	public Users updateUser(@RequestBody Users user_) {
 		return user.save(user_);
 	}
@@ -67,9 +67,15 @@ public class LoginAPIs {
 		return user.findAll();
 	}
 
-	@PostMapping("/user/delete")
-	public String deleteUser(@RequestParam long id) {
+	@PostMapping("/user/delete/id")
+	public String deleteUserById(@RequestParam long id) {
 		user.deleteById(id);
+		return "{\"status\":\"done\"}";
+	}
+
+	@PostMapping("/user/delete")
+	public String deleteUser(@RequestBody Users user) {
+		this.user.delete(user);
 		return "{\"status\":\"done\"}";
 	}
 }

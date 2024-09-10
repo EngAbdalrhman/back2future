@@ -34,11 +34,16 @@ import { RippleModule } from 'primeng/ripple';
 export class UserManagementComponent implements OnInit {
   userData: any[] = [{}];
   isLoading = true;
+  isEdit = false;
+  isDelete = false;
   dialogVisible: boolean = false;
-  username: string = '';
-  password: string = '';
-  fullname: string = '';
-  email: string = '';
+  user = {
+    id: 0,
+    userName: '',
+    password: '',
+    fullName: '',
+    email: '',
+  };
   constructor(private _http: HttpClient) {}
   ngOnInit(): void {
     this.isLoading = true;
@@ -63,22 +68,67 @@ export class UserManagementComponent implements OnInit {
     this.loadData();
   }
   addUser() {
+    console.log(this.user);
     let body = {
-      userName: this.username,
-      password: this.password,
-      fullName: this.fullname,
-      email: this.email,
+      userName: this.user.userName,
+      password: this.user.password,
+      fullName: this.user.fullName,
+      email: this.user.email,
     };
-    console.log(body);
-    debugger;
     this._http.post('/rest/user/insert', body).subscribe((data: any) => {
-      debugger;
       console.log(data);
       this.refresh();
     });
     this.dialogVisible = false;
+    this.user = {
+      id: 0,
+      userName: '',
+      password: '',
+      fullName: '',
+      email: '',
+    };
   }
   showDialog() {
     this.dialogVisible = true;
+  }
+  editUserDialog(row: any) {
+    this.isEdit = true;
+    this.dialogVisible = true;
+    // this.id = row.id;
+    this.user = { ...row };
+  }
+  editUser() {
+    console.log(this.user);
+    this._http.post('/apis/user/update', this.user).subscribe((data: any) => {
+      console.log(data);
+      this.refresh();
+    });
+    this.dialogVisible = false;
+    this.user = {
+      id: 0,
+      userName: '',
+      password: '',
+      fullName: '',
+      email: '',
+    };
+  }
+  deleteUserDialog(row: any) {
+    this.isDelete = true;
+    this.user = { ...row };
+  }
+  deleteUser() {
+    console.log(this.user);
+    this._http.post('/apis/user/delete', this.user).subscribe((data: any) => {
+      console.log(data);
+      this.refresh();
+    });
+    this.isDelete = false;
+    this.user = {
+      id: 0,
+      userName: '',
+      password: '',
+      fullName: '',
+      email: '',
+    };
   }
 }
