@@ -9,10 +9,24 @@ export class LoginService {
   private url = '/rest/login';
   isLogin: boolean = false;
   userName: string | null = '';
+  sessionToken: string | null = '';
   constructor(public _router: Router, private http: HttpClient) {
-    if (localStorage.getItem('isLogin') == 'true') {
-      this.isLogin = true;
-      this.userName = localStorage.getItem('userName');
+    if (
+      localStorage.getItem('session') != null &&
+      localStorage.getItem('session')!.length > 0
+    ) {
+      this.sessionToken = localStorage.getItem('session');
+      this.http
+        .post('/rest/verify', this.sessionToken)
+        .subscribe((data: any) => {
+          if (data.status == 'success') {
+            this.isLogin = true;
+            this.userName = data._fullName;
+            this._router.navigate(['/home']);
+          } else {
+            this.sessionToken = null;
+          }
+        });
     }
   }
   logMe(
@@ -20,6 +34,7 @@ export class LoginService {
     remember?: boolean
   ): Promise<void> {
     let userName = body.userName;
+    // body = JSON.stringify(body);
     return new Promise((resolve, reject) => {
       this.http.post(this.url, body).subscribe(
         (data: any) => {
@@ -27,8 +42,8 @@ export class LoginService {
             this.isLogin = true;
             this.userName = userName;
             if (remember) {
-              localStorage.setItem('isLogin', 'true');
-              localStorage.setItem('userName', userName);
+              localStorage.setItem('session', data.sessionToken);
+              this.sessionToken = data.sessionToken;
             }
             this._router.navigate(['/home']);
           }
@@ -43,8 +58,7 @@ export class LoginService {
   logOut() {
     this.isLogin = false;
     this.userName = '';
-    localStorage.setItem('isLogin', 'false');
-    localStorage.removeItem('userName');
+    localStorage.removeItem('session');
     this._router.navigate(['/login']);
   }
 }

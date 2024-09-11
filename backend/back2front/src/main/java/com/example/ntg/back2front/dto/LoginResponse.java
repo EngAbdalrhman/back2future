@@ -1,16 +1,24 @@
 package com.example.ntg.back2front.dto;
 
+import java.util.UUID;
+
+import com.example.ntg.back2front.utils.SessionController;
+
 public class LoginResponse {
 
 	private String _errorMsg;
 	private String _fullName;
   private  String status;
+  private String sessionToken;
 
-	public LoginResponse(String _errorMsg, String _fullName) {
-//		super();
+
+  public LoginResponse(String _errorMsg, String _fullName) {
 		this._errorMsg = _errorMsg;
 		this._fullName = _fullName;
-	}
+    this.sessionToken = UUID.randomUUID().toString(); // pusedo random like hash generator for session as real random
+    SessionController.activeSession.put(this.sessionToken, this);
+  }
+  // for bean injection
 	public LoginResponse() {
 	}
 	public String get_errorMsg() {
@@ -28,9 +36,16 @@ public class LoginResponse {
   public String getStatus() {
     return status;
   }
+
   public LoginResponse setStatus(String status) {
     this.status = status;
     return this;
   }
 
+	public String getSessionToken() {
+    return sessionToken;
+  }
+  public void setSessionToken(String sessionToken) {
+    this.sessionToken = sessionToken;
+  }
 }

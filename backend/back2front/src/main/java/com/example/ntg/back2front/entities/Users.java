@@ -15,7 +15,7 @@ public class Users {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="id",nullable=false)
-  private Long id;
+  private Long id; // Long accepts null and long dosen't accept null values in DB
 
   @Column(nullable=false)
   private String userName;
@@ -25,7 +25,7 @@ public class Users {
 
   // @Column
   private String fullName;
-  
+
   private String email;
 
   public Users(){}
@@ -61,7 +61,7 @@ public class Users {
   public void setFullName(String fullName) {
     this.fullName = fullName;
   }
-  
+
   public String getEmail() {
 	return email;
   }

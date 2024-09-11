@@ -15,6 +15,7 @@ import com.example.ntg.back2front.dto.LoginRequest;
 import com.example.ntg.back2front.dto.LoginResponse;
 import com.example.ntg.back2front.entities.Users;
 import com.example.ntg.back2front.repo.UsersRepo;
+import com.example.ntg.back2front.utils.SessionController;
 // @CrossOrigin
 @RestController
 @RequestMapping("/rest") // put under rest | context handle
@@ -47,6 +48,16 @@ public class LoginController {
 		}
 		return new LoginResponse("Invalid Data",null).setStatus("fail");
 	}
+  @PostMapping("/verify")
+  public LoginResponse verifySession(@RequestBody String sessionToken) {
+
+    if(SessionController.activeSession.containsKey(sessionToken)) {
+      LoginResponse response = SessionController.activeSession.get(sessionToken);
+      return response;
+    } else {
+      return new LoginResponse("Invalid Data",null).setStatus("fail");
+    }
+  }
 
 	@PostMapping("/user/insert")
 	public String addUser(@RequestBody Users user_) {
