@@ -20,9 +20,24 @@ export class LoginService {
         .post('/rest/verify', this.sessionToken)
         .subscribe((data: any) => {
           if (data.status == 'success') {
+            // console.log(data);
             this.isLogin = true;
             this.userName = data._fullName;
-            this._router.navigate(['/home']);
+            // console.log(this._router.url);
+            // console.log(this._router.lastSuccessfulNavigation);
+            // console.log(
+            //   window.location.href.replace('http://localhost:4200/#/', '')
+            // );
+            let location = window.location.href.replace(
+              'http://localhost:4200/#/',
+              ''
+            );
+            // console.log(this._router.getCurrentNavigation()?.id);
+            if (location == 'login') {
+              this._router.navigate(['/home']);
+            } else {
+              this._router.navigate([location]);
+            }
           } else {
             this.sessionToken = null;
           }

@@ -12,6 +12,8 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { RippleModule } from 'primeng/ripple';
+import { GridComponent } from '../../components/grid/grid.component';
+import { colInfo } from '../../components/grid/colInfo';
 
 @Component({
   selector: 'app-user-management',
@@ -26,16 +28,25 @@ import { RippleModule } from 'primeng/ripple';
     InputTextModule,
     FormsModule,
     RippleModule,
+    GridComponent,
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss',
-  // providers: [provideHttpClient()],
 })
 export class UserManagementComponent implements OnInit {
   userData: any[] = [{}];
   isLoading = true;
   isEdit = false;
   isDelete = false;
+  colInfo: colInfo[] = [
+    { fieldName: 'Code', headerCaption: '#' },
+    { fieldName: 'Full Name', headerCaption: 'Full Name' },
+    { fieldName: 'Username', headerCaption: 'Username' },
+    { fieldName: 'Password', headerCaption: 'Password' },
+    { fieldName: 'Email', headerCaption: 'Email' },
+    { fieldName: '', headerCaption: '' },
+    { fieldName: '', headerCaption: '' },
+  ];
   dialogVisible: boolean = false;
   user = {
     id: 0,

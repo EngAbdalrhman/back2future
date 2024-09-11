@@ -14,3 +14,21 @@
 .active {
   color: gold;
 }
+.a:hover {
+  color: red !important;
+  text-decoration: none !important;
+}
+// .header .p-menuitem-link a[disabled] {
+//   color: #ccc; // gray color for disabled items
+//   cursor: not-allowed; // change cursor to indicate disabled state
+//   pointer-events: none; // prevent click events on disabled items
+//   opacity: 0.5; // reduce opacity to indicate disabled state
+// }
+.p-menuitem-link:hover {
+  color: red !important;
+  text-decoration: none !important;
+}
+.p-menuitem-link:active {
+  color: goldenrod !important;
+  text-decoration: none !important;
+}

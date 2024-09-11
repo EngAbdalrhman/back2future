@@ -1,4 +1,4 @@
-<p-table [value]="userData" [tableStyle]="{ 'min-width': '50rem' }">
+<!-- <p-table [value]="userData" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       User Data
@@ -23,9 +23,7 @@
       <th></th>
     </tr>
   </ng-template>
-  <!-- as *ngfor -->
   <ng-template pTemplate="body" let-row>
-    <!-- @IF("!isLoading") -->
     <tr *ngIf="!isLoading">
       <td>{{ row.id }}</td>
       <td>{{ row.fullName }}</td>
@@ -49,8 +47,16 @@
       <td><p-skeleton /></td>
     </tr>
   </ng-template>
-</p-table>
-
+</p-table> -->
+<app-grid
+  [Data]="userData"
+  [isLoading]="isLoading"
+  [colInfo]="colInfo"
+  (Refresh)="refresh()"
+  (Add)="showDialog()"
+  (Edit)="editUserDialog($event)"
+  (Delete)="deleteUserDialog($event)"
+></app-grid>
 <p-dialog
   [header]="isEdit ? 'Edit User' : 'Add New User'"
   [resizable]="false"
